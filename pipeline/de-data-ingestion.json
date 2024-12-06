@@ -29,7 +29,17 @@
 					},
 					"dataset": {
 						"referenceName": "readcsv",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"IngestionSheetContainer": {
+								"value": "@pipeline().parameters.IngestionSheetContainer",
+								"type": "Expression"
+							},
+							"IngestionSheetpath": {
+								"value": "@pipeline().parameters.IngestionSheetPath",
+								"type": "Expression"
+							}
+						}
 					}
 				}
 			},
