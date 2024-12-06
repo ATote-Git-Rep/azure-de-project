@@ -105,7 +105,17 @@
 										"inputs": [
 											{
 												"referenceName": "SQLServerTableGeneric",
-												"type": "DatasetReference"
+												"type": "DatasetReference",
+												"parameters": {
+													"SQLSchemaName": {
+														"value": "@item().schema",
+														"type": "Expression"
+													},
+													"SQLTableName": {
+														"value": "@item().tablename",
+														"type": "Expression"
+													}
+												}
 											}
 										],
 										"outputs": [

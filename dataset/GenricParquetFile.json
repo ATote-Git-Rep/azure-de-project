@@ -27,7 +27,7 @@
 					"type": "Expression"
 				}
 			},
-			"compressionCodec": "snappy"
+			"compressionCodec": null
 		},
 		"schema": []
 	}
