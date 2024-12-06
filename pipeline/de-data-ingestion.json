@@ -134,11 +134,11 @@
 												"type": "DatasetReference",
 												"parameters": {
 													"Container": {
-														"value": "@pipeline().parameters.IngestionSheetContainer",
+														"value": "@pipeline().parameters.LakeContainer",
 														"type": "Expression"
 													},
 													"PathWithFile": {
-														"value": "@pipeline().parameters.IngestionSheetPath",
+														"value": "@pipeline().parameters.LakePath",
 														"type": "Expression"
 													}
 												}
@@ -159,7 +159,10 @@
 			"IngestionSheetPath": {
 				"type": "string"
 			},
-			"IngestionType": {
+			"LakeContainer": {
+				"type": "string"
+			},
+			"LakePath": {
 				"type": "string"
 			},
 			"IngestionDate": {
