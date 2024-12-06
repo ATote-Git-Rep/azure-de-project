@@ -1,0 +1,47 @@
+{
+	"name": "de-data-ingestion",
+	"properties": {
+		"description": "de-data-ingestion",
+		"activities": [
+			{
+				"name": "testwait",
+				"type": "Wait",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"waitTimeInSeconds": 2
+				}
+			},
+			{
+				"name": "test set var",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "testwait",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "testvar",
+					"value": {
+						"value": "@utcNow()",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"variables": {
+			"testvar": {
+				"type": "String"
+			}
+		},
+		"annotations": []
+	}
+}
