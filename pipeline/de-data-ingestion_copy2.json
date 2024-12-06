@@ -13,7 +13,7 @@
 				}
 			},
 			{
-				"name": "test set var",
+				"name": "test set var 2",
 				"type": "SetVariable",
 				"dependsOn": [
 					{
@@ -31,7 +31,7 @@
 				"typeProperties": {
 					"variableName": "testvar",
 					"value": {
-						"value": "@utcNow()",
+						"value": "utcNow()",
 						"type": "Expression"
 					}
 				}
