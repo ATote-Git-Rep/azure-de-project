@@ -32,6 +32,19 @@
 						"type": "DatasetReference"
 					}
 				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Read Ingestion Sheet",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": []
 			}
 		],
 		"parameters": {
@@ -39,6 +52,12 @@
 				"type": "string"
 			},
 			"IngestionSheetPath": {
+				"type": "string"
+			},
+			"IngestionType": {
+				"type": "string"
+			},
+			"IngestionDate": {
 				"type": "string"
 			}
 		},
