@@ -170,30 +170,6 @@
 						}
 					]
 				}
-			},
-			{
-				"name": "Set variable1",
-				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "Read Ingestion Sheet",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "testvar",
-					"value": {
-						"value": "@activity('Read Ingestion Sheet').output.value",
-						"type": "Expression"
-					}
-				}
 			}
 		],
 		"parameters": {
