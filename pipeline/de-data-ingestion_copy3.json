@@ -1,5 +1,5 @@
 {
-	"name": "de-data-ingestion_copy2",
+	"name": "de-data-ingestion_copy3",
 	"properties": {
 		"description": "de-data-ingestion",
 		"activities": [
@@ -13,7 +13,7 @@
 				}
 			},
 			{
-				"name": "test set var 2",
+				"name": "test set var",
 				"type": "SetVariable",
 				"dependsOn": [
 					{
@@ -31,7 +31,7 @@
 				"typeProperties": {
 					"variableName": "testvar",
 					"value": {
-						"value": "utcNow()",
+						"value": "@utcNow()",
 						"type": "Expression"
 					}
 				}
