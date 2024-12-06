@@ -59,7 +59,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('Read Ingestion Sheet').output",
+						"value": "@activity('Read Ingestion Sheet').output.value",
 						"type": "Expression"
 					},
 					"isSequential": true,
@@ -171,7 +171,7 @@
 				"typeProperties": {
 					"variableName": "testvar",
 					"value": {
-						"value": "@activity('Read Ingestion Sheet').output.value[0]",
+						"value": "@activity('Read Ingestion Sheet').output",
 						"type": "Expression"
 					}
 				}
