@@ -1,0 +1,7 @@
+{
+	"name": "Dell-Onprem-IR",
+	"properties": {
+		"type": "SelfHosted",
+		"description": "Dell-Onprem-IR"
+	}
+}
