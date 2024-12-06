@@ -111,7 +111,17 @@
 										"outputs": [
 											{
 												"referenceName": "GenricParquetFile",
-												"type": "DatasetReference"
+												"type": "DatasetReference",
+												"parameters": {
+													"Container": {
+														"value": "@pipeline().parameters.IngestionSheetContainer",
+														"type": "Expression"
+													},
+													"PathWithFile": {
+														"value": "@pipeline().parameters.IngestionSheetPath",
+														"type": "Expression"
+													}
+												}
 											}
 										]
 									}
