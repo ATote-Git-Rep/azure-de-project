@@ -5,6 +5,24 @@
 		"factoryName": {
 			"value": "atote-de-adf"
 		},
+		"AzureDataLakeStorage_LS_accountKey": {
+			"value": ""
+		},
+		"OnpremSQLServer_password": {
+			"value": ""
+		},
+		"AzureDataLakeStorage_LS_properties_typeProperties_url": {
+			"value": "https://ucstorageaccatote.dfs.core.windows.net/"
+		},
+		"OnpremSQLServer_properties_typeProperties_server": {
+			"value": "localhost,1436"
+		},
+		"OnpremSQLServer_properties_typeProperties_database": {
+			"value": "EMR_DB"
+		},
+		"OnpremSQLServer_properties_typeProperties_userName": {
+			"value": "sa"
+		},
 		"containerUri": {
 			"value": ""
 		},

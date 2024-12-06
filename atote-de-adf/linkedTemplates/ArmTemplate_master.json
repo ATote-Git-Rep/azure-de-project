@@ -7,6 +7,30 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "atote-de-adf"
 		},
+		"AzureDataLakeStorage_LS_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorage_LS'"
+		},
+		"OnpremSQLServer_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'OnpremSQLServer'"
+		},
+		"AzureDataLakeStorage_LS_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://ucstorageaccatote.dfs.core.windows.net/"
+		},
+		"OnpremSQLServer_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "localhost,1436"
+		},
+		"OnpremSQLServer_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "EMR_DB"
+		},
+		"OnpremSQLServer_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "sa"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -33,6 +57,24 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"AzureDataLakeStorage_LS_accountKey": {
+						"value": "[parameters('AzureDataLakeStorage_LS_accountKey')]"
+					},
+					"OnpremSQLServer_password": {
+						"value": "[parameters('OnpremSQLServer_password')]"
+					},
+					"AzureDataLakeStorage_LS_properties_typeProperties_url": {
+						"value": "[parameters('AzureDataLakeStorage_LS_properties_typeProperties_url')]"
+					},
+					"OnpremSQLServer_properties_typeProperties_server": {
+						"value": "[parameters('OnpremSQLServer_properties_typeProperties_server')]"
+					},
+					"OnpremSQLServer_properties_typeProperties_database": {
+						"value": "[parameters('OnpremSQLServer_properties_typeProperties_database')]"
+					},
+					"OnpremSQLServer_properties_typeProperties_userName": {
+						"value": "[parameters('OnpremSQLServer_properties_typeProperties_userName')]"
 					}
 				}
 			},
