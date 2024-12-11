@@ -62,10 +62,37 @@
 						}
 					}
 				]
+			},
+			{
+				"name": "test",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "testcopy data",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "tempvar",
+					"value": {
+						"value": "@string(activity('testcopy data').output)",
+						"type": "Expression"
+					}
+				}
 			}
 		],
 		"variables": {
 			"testvar": {
+				"type": "String"
+			},
+			"tempvar": {
 				"type": "String"
 			}
 		},
