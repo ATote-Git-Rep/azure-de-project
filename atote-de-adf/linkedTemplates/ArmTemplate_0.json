@@ -551,7 +551,7 @@
 																"type": "Expression"
 															},
 															"filepath": {
-																"value": "@pipeline().parameters.LakePath",
+																"value": "@concat(pipeline().parameters.LakePath, item().tablename)",
 																"type": "Expression"
 															}
 														}
