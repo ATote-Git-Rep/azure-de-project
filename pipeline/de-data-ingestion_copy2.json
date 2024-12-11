@@ -4,37 +4,64 @@
 		"description": "de-data-ingestion",
 		"activities": [
 			{
-				"name": "testwait",
-				"type": "Wait",
+				"name": "testcopy data",
+				"type": "Copy",
 				"dependsOn": [],
-				"userProperties": [],
-				"typeProperties": {
-					"waitTimeInSeconds": 2
-				}
-			},
-			{
-				"name": "test set var 2",
-				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "testwait",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
 				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
 					"secureOutput": false,
 					"secureInput": false
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"variableName": "testvar",
-					"value": {
-						"value": "utcNow()",
-						"type": "Expression"
+					"source": {
+						"type": "SqlServerSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
 					}
-				}
+				},
+				"inputs": [
+					{
+						"referenceName": "SQLServerTableGeneric",
+						"type": "DatasetReference",
+						"parameters": {
+							"SQLSchemaName": "hos_a",
+							"SQLTableName": "departments"
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "GenricCSVFOrmat",
+						"type": "DatasetReference",
+						"parameters": {
+							"container": "bronze",
+							"filepath": "temp/"
+						}
+					}
+				]
 			}
 		],
 		"variables": {
