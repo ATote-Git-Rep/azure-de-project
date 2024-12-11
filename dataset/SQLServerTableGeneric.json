@@ -1,0 +1,30 @@
+{
+	"name": "SQLServerTableGeneric",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "OnpremSQLServer",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"SQLSchemaName": {
+				"type": "string"
+			},
+			"SQLTableName": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": {
+				"value": "@dataset().SQLSchemaName",
+				"type": "Expression"
+			},
+			"table": {
+				"value": "@dataset().SQLTableName",
+				"type": "Expression"
+			}
+		}
+	}
+}

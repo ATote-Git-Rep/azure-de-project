@@ -4,41 +4,180 @@
 		"description": "de-data-ingestion",
 		"activities": [
 			{
-				"name": "testwait",
-				"type": "Wait",
+				"name": "Read Ingestion Sheet",
+				"type": "Lookup",
 				"dependsOn": [],
-				"userProperties": [],
-				"typeProperties": {
-					"waitTimeInSeconds": 2
-				}
-			},
-			{
-				"name": "test set var",
-				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "testwait",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
 				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
 					"secureOutput": false,
 					"secureInput": false
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"variableName": "testvar",
-					"value": {
-						"value": "@utcNow()",
-						"type": "Expression"
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"dataset": {
+						"referenceName": "readcsv",
+						"type": "DatasetReference",
+						"parameters": {
+							"IngestionSheetContainer": {
+								"value": "@pipeline().parameters.IngestionSheetContainer",
+								"type": "Expression"
+							},
+							"IngestionSheetpath": {
+								"value": "@pipeline().parameters.IngestionSheetPath",
+								"type": "Expression"
+							}
+						}
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "Itarate Through Entity For Ingestion",
+				"description": "Itarate Through Entity For Ingestion",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Read Ingestion Sheet",
+						"dependencyConditions": [
+							"Succeeded"
+						]
 					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Read Ingestion Sheet').output.value",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "IsFullLoad",
+							"description": "Check Load Type",
+							"type": "IfCondition",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@equals(item().loadtype, 'Full')",
+									"type": "Expression"
+								},
+								"ifTrueActivities": [
+									{
+										"name": "Load Full data to Lake",
+										"type": "Copy",
+										"dependsOn": [],
+										"policy": {
+											"timeout": "0.01:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"source": {
+												"type": "SqlServerSource",
+												"queryTimeout": "02:00:00",
+												"partitionOption": "None"
+											},
+											"sink": {
+												"type": "ParquetSink",
+												"storeSettings": {
+													"type": "AzureBlobFSWriteSettings"
+												},
+												"formatSettings": {
+													"type": "ParquetWriteSettings"
+												}
+											},
+											"enableStaging": false,
+											"translator": {
+												"type": "TabularTranslator",
+												"typeConversion": true,
+												"typeConversionSettings": {
+													"allowDataTruncation": true,
+													"treatBooleanAsNumber": false
+												}
+											}
+										},
+										"inputs": [
+											{
+												"referenceName": "SQLServerTableGeneric",
+												"type": "DatasetReference",
+												"parameters": {
+													"SQLSchemaName": {
+														"value": "@item().schema",
+														"type": "Expression"
+													},
+													"SQLTableName": {
+														"value": "@item().tablename",
+														"type": "Expression"
+													}
+												}
+											}
+										],
+										"outputs": [
+											{
+												"referenceName": "GenericParquet",
+												"type": "DatasetReference",
+												"parameters": {
+													"container": {
+														"value": "@pipeline().parameters.LakeContainer",
+														"type": "Expression"
+													},
+													"path": {
+														"value": "@concat( pipeline().parameters.LakePath, item().targetpath, '/', item().tablename)",
+														"type": "Expression"
+													}
+												}
+											}
+										]
+									}
+								]
+							}
+						}
+					]
 				}
 			}
 		],
+		"parameters": {
+			"IngestionSheetContainer": {
+				"type": "string"
+			},
+			"IngestionSheetPath": {
+				"type": "string"
+			},
+			"LakeContainer": {
+				"type": "string"
+			},
+			"LakePath": {
+				"type": "string"
+			},
+			"IngestionDate": {
+				"type": "string"
+			}
+		},
 		"variables": {
 			"testvar": {
+				"type": "String"
+			},
+			"tempvar": {
+				"type": "String"
+			},
+			"test123": {
 				"type": "String"
 			}
 		},
