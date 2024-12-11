@@ -114,14 +114,12 @@
 												"partitionOption": "None"
 											},
 											"sink": {
-												"type": "DelimitedTextSink",
+												"type": "ParquetSink",
 												"storeSettings": {
 													"type": "AzureBlobFSWriteSettings"
 												},
 												"formatSettings": {
-													"type": "DelimitedTextWriteSettings",
-													"quoteAllText": true,
-													"fileExtension": ".txt"
+													"type": "ParquetWriteSettings"
 												}
 											},
 											"enableStaging": false,
@@ -152,14 +150,14 @@
 										],
 										"outputs": [
 											{
-												"referenceName": "GenricCSVFOrmat",
+												"referenceName": "GenericParquet",
 												"type": "DatasetReference",
 												"parameters": {
 													"container": {
 														"value": "@pipeline().parameters.LakeContainer",
 														"type": "Expression"
 													},
-													"filepath": {
+													"path": {
 														"value": "@concat( pipeline().parameters.LakePath, item().targetpath, '/', item().tablename)",
 														"type": "Expression"
 													}
