@@ -82,7 +82,7 @@
 				"typeProperties": {
 					"variableName": "tempvar",
 					"value": {
-						"value": "@string(activity('testcopy data').output)",
+						"value": "@activity('testcopy data').output",
 						"type": "Expression"
 					}
 				}
