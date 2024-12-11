@@ -134,7 +134,17 @@
 										"outputs": [
 											{
 												"referenceName": "GenricCSVFOrmat",
-												"type": "DatasetReference"
+												"type": "DatasetReference",
+												"parameters": {
+													"container": {
+														"value": "@pipeline().parameters.LakeContainer",
+														"type": "Expression"
+													},
+													"filepath": {
+														"value": "@pipeline().parameters.LakePath",
+														"type": "Expression"
+													}
+												}
 											}
 										]
 									}
