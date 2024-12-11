@@ -330,6 +330,48 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/GenricCSVFOrmat')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorage_LS",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"container": {
+						"type": "string"
+					},
+					"filepath": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": {
+							"value": "@dataset().filepath",
+							"type": "Expression"
+						},
+						"fileSystem": {
+							"value": "@dataset().container",
+							"type": "Expression"
+						}
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage_LS')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SQLServerTableGeneric')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -440,7 +482,7 @@
 									"userProperties": [],
 									"typeProperties": {
 										"expression": {
-											"value": "@equals(toLower(item().loadtype), 'full')",
+											"value": "@equals(item().loadtype, 'Full')",
 											"type": "Expression"
 										},
 										"ifTrueActivities": [
@@ -463,12 +505,14 @@
 														"partitionOption": "None"
 													},
 													"sink": {
-														"type": "ParquetSink",
+														"type": "DelimitedTextSink",
 														"storeSettings": {
 															"type": "AzureBlobFSWriteSettings"
 														},
 														"formatSettings": {
-															"type": "ParquetWriteSettings"
+															"type": "DelimitedTextWriteSettings",
+															"quoteAllText": true,
+															"fileExtension": ".txt"
 														}
 													},
 													"enableStaging": false,
@@ -499,14 +543,14 @@
 												],
 												"outputs": [
 													{
-														"referenceName": "GenricParquetFile",
+														"referenceName": "GenricCSVFOrmat",
 														"type": "DatasetReference",
 														"parameters": {
-															"Container": {
+															"container": {
 																"value": "@pipeline().parameters.LakeContainer",
 																"type": "Expression"
 															},
-															"PathWithFile": {
+															"filepath": {
 																"value": "@pipeline().parameters.LakePath",
 																"type": "Expression"
 															}
@@ -518,30 +562,6 @@
 									}
 								}
 							]
-						}
-					},
-					{
-						"name": "Set variable1",
-						"type": "SetVariable",
-						"dependsOn": [
-							{
-								"activity": "Read Ingestion Sheet",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"variableName": "testvar",
-							"value": {
-								"value": "@activity('Read Ingestion Sheet').output.value",
-								"type": "Expression"
-							}
 						}
 					}
 				],
@@ -568,6 +588,9 @@
 				"variables": {
 					"testvar": {
 						"type": "String"
+					},
+					"tempvar": {
+						"type": "String"
 					}
 				},
 				"annotations": []
@@ -575,7 +598,7 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/readcsv')]",
 				"[concat(variables('factoryId'), '/datasets/SQLServerTableGeneric')]",
-				"[concat(variables('factoryId'), '/datasets/GenricParquetFile')]"
+				"[concat(variables('factoryId'), '/datasets/GenricCSVFOrmat')]"
 			]
 		}
 	]
