@@ -75,25 +75,6 @@
 									"value": "@equals(item().loadtype, 'Full')",
 									"type": "Expression"
 								},
-								"ifFalseActivities": [
-									{
-										"name": "TestVar",
-										"type": "SetVariable",
-										"dependsOn": [],
-										"policy": {
-											"secureOutput": false,
-											"secureInput": false
-										},
-										"userProperties": [],
-										"typeProperties": {
-											"variableName": "test123",
-											"value": {
-												"value": "@string(item().loadtype)",
-												"type": "Expression"
-											}
-										}
-									}
-								],
 								"ifTrueActivities": [
 									{
 										"name": "Load Full data to Lake",
